@@ -6,6 +6,10 @@ __Inotify-cpp__ is a C++ wrapper for linux inotify. It lets you watch for
 filesystem events on your filesystem tree. The following usage example shows
 the implementation of a simple filesystem event watcher for the commandline.
 
+This fork is for the purpose of maintaining minor updates to the original
+version from "https://github.com/erikzenker/inotify-cpp".  It will not attempt
+to maintain compatibility with older systems/compilers.
+
 ## Usage ##
 
   ```c++
