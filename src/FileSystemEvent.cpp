@@ -15,7 +15,4 @@ FileSystemEvent::FileSystemEvent(
 {
 }
 
-FileSystemEvent::~FileSystemEvent()
-{
-}
 }

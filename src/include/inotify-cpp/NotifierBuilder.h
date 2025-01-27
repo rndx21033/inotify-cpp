@@ -4,6 +4,7 @@
 #include <inotify-cpp/Notification.h>
 #include <inotify-cpp/FileSystemAdapter.h>
 
+#include <map>
 #include <memory>
 #include <string>
 

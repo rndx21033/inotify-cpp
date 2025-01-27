@@ -2,7 +2,6 @@
 #include <inotify-cpp/FileSystemAdapter.h>
 
 #include <chrono>
-#include <string>
 
 namespace inotify {
 class FileSystemEvent {
@@ -12,8 +11,6 @@ class FileSystemEvent {
         uint32_t mask,
         const inotifypp::filesystem::path& path,
         const std::chrono::steady_clock::time_point& eventTime);
-
-    ~FileSystemEvent();
 
   public:
     int wd;

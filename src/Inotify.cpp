@@ -1,7 +1,6 @@
 
 #include <inotify-cpp/Inotify.h>
 
-#include <iostream>
 #include <string>
 #include <vector>
 
@@ -28,7 +27,7 @@ Inotify::Inotify()
 {
     mStopped = false;
 
-    if (pipe2(mStopPipeFd, O_NONBLOCK) == -1) {
+    if (pipe2(mStopPipeFd.data(), O_NONBLOCK) == -1) {
         mError = errno;
         std::stringstream errorStream;
         errorStream << "Can't initialize stop pipe ! " << strerror(mError) << ".";
@@ -263,7 +262,7 @@ void Inotify::stop()
 void Inotify::sendStopSignal()
 {
     std::vector<std::uint8_t> buf(1,0);
-    write(mStopPipeFd[mPipeWriteIdx], buf.data(), buf.size());
+    std::ignore = write(mStopPipeFd[mPipeWriteIdx], buf.data(), buf.size());
 }
 
 bool Inotify::hasStopped()
@@ -301,7 +300,7 @@ ssize_t Inotify::readEventsIntoBuffer(std::vector<uint8_t>& eventBuffer)
     ssize_t length = 0;
     length = 0;
     auto timeout = -1;
-    auto nFdsReady = epoll_wait(mEpollFd, mEpollEvents, MAX_EPOLL_EVENTS, timeout);
+    auto nFdsReady = epoll_wait(mEpollFd, mEpollEvents.data(), MAX_EPOLL_EVENTS, timeout);
 
     if (nFdsReady == -1) {
         return length;

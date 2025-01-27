@@ -31,15 +31,15 @@ enum class Event : std::uint32_t {
 constexpr Event operator&(Event lhs, Event rhs)
 {
     return static_cast<Event>(
-        static_cast<std::underlying_type<Event>::type>(lhs)
-        & static_cast<std::underlying_type<Event>::type>(rhs));
+        static_cast<std::underlying_type_t<Event>>(lhs)
+        & static_cast<std::underlying_type_t<Event>>(rhs));
 }
 
 constexpr Event operator|(Event lhs, Event rhs)
 {
     return static_cast<Event>(
-        static_cast<std::underlying_type<Event>::type>(lhs)
-        | static_cast<std::underlying_type<Event>::type>(rhs));
+        static_cast<std::underlying_type_t<Event>>(lhs)
+        | static_cast<std::underlying_type_t<Event>>(rhs));
 }
 
 std::ostream& operator<<(std::ostream& stream, const Event& event);

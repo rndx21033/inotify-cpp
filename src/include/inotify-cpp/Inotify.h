@@ -5,21 +5,14 @@
  * @copyright MIT
  **/
 #pragma once
-#include <assert.h>
+#include <cassert>
 #include <atomic>
 #include <boost/bimap.hpp>
 #include <chrono>
-#include <errno.h>
-#include <exception>
-#include <map>
-#include <memory>
 #include <queue>
-#include <sstream>
 #include <string>
 #include <sys/epoll.h>
 #include <sys/inotify.h>
-#include <thread>
-#include <time.h>
 #include <vector>
 
 #include <inotify-cpp/FileSystemEvent.h>
@@ -115,12 +108,12 @@ private:
   int mEpollFd;
   epoll_event mInotifyEpollEvent;
   epoll_event mStopPipeEpollEvent;
-  epoll_event mEpollEvents[MAX_EPOLL_EVENTS];
+  std::array<epoll_event, MAX_EPOLL_EVENTS> mEpollEvents;
 
   std::function<void(FileSystemEvent)> mOnEventTimeout;
   std::vector<uint8_t> mEventBuffer;
 
-  int mStopPipeFd[2];
+  std::array<int, 2> mStopPipeFd;
   const int mPipeReadIdx;
   const int mPipeWriteIdx;
 };

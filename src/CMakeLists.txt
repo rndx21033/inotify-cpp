@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.10..3.31)
 set(LIB_NAME inotify-cpp)
 set(LIB_COMPANY inotify-cpp)
 set(LIB_SRCS NotifierBuilder.cpp Event.cpp FileSystemEvent.cpp Inotify.cpp Notification.cpp)
@@ -8,13 +9,13 @@ set(LIB_HEADER
         include/inotify-cpp/Inotify.h
         include/inotify-cpp/Notification.h)
 
-cmake_minimum_required(VERSION 3.8)
 project(${LIB_NAME} VERSION 0.2.0)
 include(GNUInstallDirs)
 
 macro(configure_target target)
         set_target_properties(${target} PROPERTIES
                 LINKER_LANGUAGE CXX
+                CXX_EXTENSIONS OFF
                 OUTPUT_NAME ${LIB_NAME}
                 SOVERSION ${PROJECT_VERSION}
         )
@@ -29,18 +30,18 @@ macro(configure_target target)
                 FILE ${target}Targets.cmake
                 NAMESPACE ${LIB_COMPANY}::)
 
-        target_compile_features(${target} PUBLIC cxx_std_11)
+        target_compile_features(${target} PUBLIC cxx_std_17)
         target_include_directories(${target} PUBLIC
                 $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
                 $<INSTALL_INTERFACE:include>
                 ${Boost_INCLUDE_DIR})
-        target_link_libraries(${target} PUBLIC inotify-filesystem-adapter)
+        target_link_libraries(${target} PUBLIC Boost::boost)
 
 endmacro(configure_target target)
 
 # add export for adapter
-install(TARGETS inotify-filesystem-adapter EXPORT inotify-filesystem-adapterExport)
-install(EXPORT inotify-filesystem-adapterExport DESTINATION ${CMAKE_INSTALL_LIBDIR})
+#install(TARGETS inotify-filesystem-adapter EXPORT inotify-filesystem-adapterExport)
+#install(EXPORT inotify-filesystem-adapterExport DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
 # library definition
 if(BUILD_SHARED_LIBS)

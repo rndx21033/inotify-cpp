@@ -7,6 +7,7 @@
 #include <fstream>
 #include <future>
 #include <iostream>
+#include <thread>
 
 using namespace inotify;
 
@@ -376,8 +377,6 @@ BOOST_FIXTURE_TEST_CASE(shouldSetEventTimeout, NotifierBuilderTests)
 
 BOOST_FIXTURE_TEST_CASE(shouldNotAppendSlashOnWatchingFiles, NotifierBuilderTests)
 {
-    std::chrono::milliseconds timeout(100);
-
     auto notifier = BuildNotifier().watchFile(testFile_).onEvent(
         Event::open, [&](Notification notification) { promisedOpen_.set_value(notification); });
 

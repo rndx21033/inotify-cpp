@@ -2,7 +2,6 @@
 
 #include <cstdint>
 #include <iostream>
-#include <type_traits>
 
 namespace inotify {
 
