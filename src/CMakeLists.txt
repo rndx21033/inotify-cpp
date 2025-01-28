@@ -35,7 +35,10 @@ macro(configure_target target)
                 $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
                 $<INSTALL_INTERFACE:include>
                 ${Boost_INCLUDE_DIR})
-        target_link_libraries(${target} PUBLIC Boost::boost)
+        target_link_libraries(${target} PUBLIC
+                Boost::boost
+                $<$<AND:$<CXX_COMPILER_ID:GNU>,$<VERSION_LESS:$<CXX_COMPILER_VERSION>,9.0>>:stdc++fs>
+        )
 
 endmacro(configure_target target)
 
