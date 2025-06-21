@@ -107,8 +107,7 @@ cmake --build . --target inotify_example
  + build
    + cmake 3.8  
 
-## Licence
-MIT
+## Licensed under the [MIT License](LICENSE)
 
 ## Author ##
 Written by Erik Zenker (erikzenker@hotmail.com)
