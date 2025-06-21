@@ -10,6 +10,7 @@ option(INOTIFY_BUILD_EXAMPLE "Build inotify-cpp example program" ON)
 option(INOTIFY_BUILD_TEST "Build inotify-cpp unittest program" ON)
 option(BUILD_SHARED_LIBS "Build inotify-cpp as a shared library" ON)
 option(BUILD_STATIC_LIBS "Build inotify-cpp as a static library" OFF)
+option(INOTIFY_CPP_INSTALL_DEVEL "Install development files" OFF)
 
 # boost is required for boost::bimap
 # optionally, unit_test_framework is also needed for unit tests

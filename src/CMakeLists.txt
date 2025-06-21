@@ -25,15 +25,18 @@ macro(configure_target target)
                 ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
                 RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
                 INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-        install(EXPORT ${target}Targets
-                DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${LIB_NAME}
-                FILE ${target}Targets.cmake
-                NAMESPACE ${LIB_COMPANY}::)
+        if(INOTIFY_CPP_INSTALL_DEVEL)
+                install(EXPORT ${target}Targets
+                        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${LIB_NAME}
+                        FILE ${target}Targets.cmake
+                        NAMESPACE ${LIB_COMPANY}::)
+        endif()
 
         target_compile_features(${target} PUBLIC cxx_std_17)
         target_include_directories(${target} PUBLIC
                 $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
                 $<INSTALL_INTERFACE:include>
+                PRIVATE
                 ${Boost_INCLUDE_DIR})
         target_link_libraries(${target} PUBLIC
                 Boost::boost
@@ -43,8 +46,10 @@ macro(configure_target target)
 endmacro(configure_target target)
 
 # add export for adapter
-#install(TARGETS inotify-filesystem-adapter EXPORT inotify-filesystem-adapterExport)
-#install(EXPORT inotify-filesystem-adapterExport DESTINATION ${CMAKE_INSTALL_LIBDIR})
+if(INOTIFY_CPP_INSTALL_DEVEL)
+        install(TARGETS inotify-filesystem-adapter EXPORT inotify-filesystem-adapterExport)
+        install(EXPORT inotify-filesystem-adapterExport DESTINATION ${CMAKE_INSTALL_LIBDIR})
+endif()
 
 # library definition
 if(BUILD_SHARED_LIBS)
@@ -67,10 +72,14 @@ if(BUILD_SHARED_LIBS AND BUILD_STATIC_LIBS)
         add_library(${LIB_COMPANY}::${LIB_NAME} ALIAS ${LIB_NAME}-shared)
 endif()
 
-install(DIRECTORY ${CMAKE_INSTALL_INCLUDEDIR}/${LIB_NAME} DESTINATION include)
+if(INOTIFY_CPP_INSTALL_DEVEL)
+        install(DIRECTORY ${CMAKE_INSTALL_INCLUDEDIR}/${LIB_NAME} DESTINATION include)
+endif()
 
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(${LIB_NAME}ConfigVersion.cmake
         COMPATIBILITY SameMajorVersion)
-install(FILES ${LIB_NAME}Config.cmake ${CMAKE_CURRENT_BINARY_DIR}/${LIB_NAME}ConfigVersion.cmake
-        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${LIB_NAME})
+if(INOTIFY_CPP_INSTALL_DEVEL)
+        install(FILES ${LIB_NAME}Config.cmake ${CMAKE_CURRENT_BINARY_DIR}/${LIB_NAME}ConfigVersion.cmake
+                DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${LIB_NAME})
+endif()
